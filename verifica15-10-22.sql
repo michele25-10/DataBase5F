@@ -29,8 +29,6 @@ date_dest datetime NOT NULL,
 id_airplane int FOREIGN KEY REFERENCES airplane(id_airplane)
 );
 
-ALTER TABLE travel
-DROP COLUMN price; 
 
 CREATE TABLE ticket(
 id_ticket int identity(1,1) PRIMARY KEY,
@@ -42,3 +40,21 @@ price decimal NOT NULL,
 CREATE TABLE delete_travel(
 id_travel int FOREIGN KEY REFERENCES travel(id_travel) PRIMARY KEY,
 );
+
+/*Query vedere il nome e cognome delle persone alle quali è stata eliminata la tratta*/
+SELECT name, surname, id_ticket, delete_travel.id_travel
+FROM ticket
+INNER JOIN delete_travel ON delete_travel.id_travel  = ticket.id_travel 
+INNER JOIN person ON ticket.CF = person.CF;
+
+/*Query vedere aerei stanno volando su quale tratta e dove atterreranno*/
+SELECT airplane.id_airplane , airplane.model, airplane.company, travel.id_travel, airport.city
+FROM travel
+INNER JOIN airplane ON airplane.id_airplane = travel.id_airplane
+INNER JOIN airport ON travel.id_dest = airport.id_airport;
+
+/*Query visualizzare nome cognome id ticket e punto di partenza ed arrivo*/
+SELECT person.name, person.surname, ticket.id_ticket, travel.id_dest, travel.id_part
+FROM travel
+LEFT JOIN ticket ON ticket.id_travel = travel.id_travel
+LEFT JOIN person ON person.CF = ticket.CF; 
