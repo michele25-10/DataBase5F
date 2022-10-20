@@ -113,3 +113,20 @@ INNER JOIN subject ON taccuino.subject = subject.subject_name;
 /*NON FUNZIONA*/
 
 SELECT * FROM valutation v;
+
+/*JOIN QUERY*/
+SELECT * FROM student s;
+SELECT * FROM class c;
+SELECT * FROM subject;
+SELECT * FROM teacher t;
+
+SELECT student.name, student.surname, class.class, class.department
+FROM student
+INNER JOIN class ON class.id_class = student.id_classe
+WHERE 1=1;
+
+SELECT teacher.teacher_name as 'Nome professore', teacher.teacher_surname as 'Cognome professore', subject.subject_name as 'Materia' 
+FROM teacher
+LEFT JOIN subject ON subject.id_teacher = teacher.id
+WHERE 1=1
+ORDER BY teacher.teacher_surname; 
