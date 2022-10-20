@@ -84,8 +84,10 @@ SELECT * FROM teacher t ;
 
 INSERT INTO subject(subject_name, id_teacher)
 SELECT DISTINCT subject, id
-FROM taccuino, teacher 
-WHERE taccuino.teacher_surname = teacher.teacher_surname;
+FROM taccuino
+INNER JOIN teacher 
+ON taccuino.teacher_surname = teacher.teacher_surname
+WHERE 1=1;
 
 SELECT * FROM subject s;
 
@@ -96,15 +98,18 @@ ADD note text NULL;
 
 INSERT INTO student(freshman, name, surname, id_classe)
 SELECT DISTINCT freshman, name, surname, id_class
-FROM taccuino, class
-WHERE taccuino.class = class.class AND taccuino.department = class.department;
+FROM taccuino
+INNER JOIN class 
+ON taccuino.class = class.class AND taccuino.department = class.department
+WHERE 1=1;
 
 SELECT * FROM student s;
 
 INSERT INTO valutation(valutation, id_teacher, id_student, id_subject, note, date_day)
-SELECT valutation, id, freshman, id_subject, note, date_day 
-FROM taccuino, teacher, subject
-WHERE teacher.teacher_surname = taccuino.teacher_surname 
-AND taccuino.subject = subject.subject_name;
+SELECT valutation, id, freshman, id_subject, note, date_day
+FROM taccuino
+INNER JOIN teacher ON teacher.teacher_surname = taccuino.teacher_surname
+INNER JOIN subject ON taccuino.subject = subject.subject_name;
+/*NON FUNZIONA*/
 
 SELECT * FROM valutation v;
